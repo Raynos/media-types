@@ -1,11 +1,11 @@
-# routil-mediaTypes [![build status][1]][2]
+# routil-mediatypes [![build status][1]][2]
 
 handle multiple media types
 
 ## Example
 
     var http = require("http")
-        , mediaTypes = require("routil-mediaTypes")()
+        , mediaTypes = require("routil-mediatypes")()
 
     http.createServer(function (req, res) {
         mediaTypes(req, res, {
@@ -21,7 +21,7 @@ handle multiple media types
 ## Example with custom error handling
 
     var http = require("http")
-        , mediaTypes = require("routil-mediaTypes")({
+        , mediaTypes = require("routil-mediatypes")({
             errorPage: function (req, res) {
                 return function (error, statusCode) {
                     res.statusCode = statusCode
@@ -47,7 +47,7 @@ handle multiple media types
         , partialRight = require("ap").partialRight
         , errorPageOptions = { ... }
         , errorPage = partialRight(ErrorPage, errorPageOptions)
-        , mediaTypes = require("routil-mediaTypes")({
+        , mediaTypes = require("routil-mediatypes")({
             errorPage: errorPage
         })
 

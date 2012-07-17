@@ -1,19 +1,19 @@
 {
-  "name": "routil-mediaTypes",
-  "version": "0.0.1",
+  "name": "routil-mediatypes",
+  "version": "0.0.2",
   "description": "handle multiple media types",
   "keywords": [],
   "author": "Raynos <raynos2@gmail.com>",
-  "repository": "git://github.com/Raynos/routil-mediaTypes.git",
+  "repository": "git://github.com/Raynos/routil-mediatypes.git",
   "main": "index",
-  "homepage": "https://github.com/Raynos/routil-mediaTypes",
+  "homepage": "https://github.com/Raynos/routil-mediatypes",
   "contributors": [
     {
       "name": "Jake Verbaten"
     }
   ],
   "bugs": {
-    "url": "https://github.com/Raynos/routil-mediaTypes/issues",
+    "url": "https://github.com/Raynos/routil-mediatypes/issues",
     "email": "raynos2@gmail.com"
   },
   "dependencies": {
@@ -28,7 +28,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/Raynos/routil-mediaTypes/raw/master/LICENSE"
+      "url": "http://github.com/Raynos/routil-mediatypes/raw/master/LICENSE"
     }
   ],
   "scripts": {
