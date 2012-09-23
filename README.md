@@ -1,65 +1,54 @@
-# routil-mediatypes [![build status][1]][2]
+# media-types [![build status][1]][2]
 
 handle multiple media types
 
 ## Example
 
-    var http = require("http")
-        , mediaTypes = require("routil-mediatypes")()
+```
+var http = require("http")
+    , mediaTypes = require("media-types")
 
-    http.createServer(function (req, res) {
-        mediaTypes(req, res, {
-            "application/json": sendJson
-            , "text/html": sendHtml
-        })(res)
-    }).listen(8080)
+http.createServer(function (req, res) {
+    mediaTypes(req, res, {
+        "application/json": sendJson
+        , "text/html": sendHtml
+    })(res)
+}).listen(8080)
 
-    function sendJson(res) { res.end("json") }
+function sendJson(res) { res.end("json") }
 
-    function sendHtml(res) { res.end("html") }
+function sendHtml(res) { res.end("html") }
+```
 
 ## Example with custom error handling
 
-    var http = require("http")
-        , mediaTypes = require("routil-mediatypes")({
-            errorPage: function (req, res) {
-                return function (error, statusCode) {
-                    res.statusCode = statusCode
-                    res.end("error :(", err.message)
-                }
-            }
-        })
+```
+var http = require("http")
+    , mediaTypes = require("media-types")
 
-    http.createServer(function (req, res) {
-        mediaTypes(req, res, {
-            "application/json": sendJson
-            , "text/html": sendHtml
-        })(res)
-    }).listen(8080)
+http.createServer(function (req, res) {
+    mediaTypes(req, res, {
+        "application/json": sendJson
+        , "text/html": sendHtml
+        , default: function (res) {
+            res.statusCode = 415
+            res.end("I refuse to handle you")
+        }
+    })(res)
+}).listen(8080)
 
-    function sendJson(res) { res.end("json") }
+function sendJson(res) { res.end("json") }
 
-    function sendHtml(res) { res.end("html") }
-
-## Example with custom error page
-
-    var ErrorPage = require("error-page")
-        , partialRight = require("ap").partialRight
-        , errorPageOptions = { ... }
-        , errorPage = partialRight(ErrorPage, errorPageOptions)
-        , mediaTypes = require("routil-mediatypes")({
-            errorPage: errorPage
-        })
-
-    ...
+function sendHtml(res) { res.end("html") }
+```
 
 ## Installation
 
-`npm install routil-mediaTypes`
+`npm install media-types`
 
 ## Tests
 
-`make test`
+`npm test`
 
 ## Contributors
 
@@ -67,5 +56,5 @@ handle multiple media types
 
 ## MIT Licenced
 
-  [1]: https://secure.travis-ci.org/Raynos/routil-mediaTypes.png
-  [2]: http://travis-ci.org/Raynos/routil-mediaTypes
+  [1]: https://secure.travis-ci.org/Raynos/media-types.png
+  [2]: http://travis-ci.org/Raynos/media-types

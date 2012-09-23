@@ -1,24 +1,21 @@
 var Negotiator = require("negotiator")
-    , ErrorPage = require("error-page")
-    , partial = require("ap").partial
 
 module.exports = MediaTypes
 
-function MediaTypes(options) {
-    var errorPage = ErrorPage || options.errorPage
+function MediaTypes(req, res, object) {
+    object = object || {}
+    var $default = object.default
 
-    return partial(mediaTypes, errorPage)
-}
+    ;delete object.default
 
-function mediaTypes(errorPage, req, res, object)  {
     var types = Object.keys(object)
-        , mediaType = new Negotiator(req).preferredMediaType(types)
+        , neg = new Negotiator(req)
+        , mediaType = neg.preferredMediaType(types)
 
-    return object[mediaType] || object.default ||
-        partial(notSupportedHandler, errorPage, req, res)
-}
+    return object[mediaType] || $default || defaultHandler
 
-function notSupportedHandler(errorPage, req, res) {
-    errorPage(req, res)(
-        new Error("mediaType not supported"), 415)
+    function defaultHandler() {
+        res.statusCode = 415
+        res.end("415 mediaType not supported " + req.url)
+    }
 }

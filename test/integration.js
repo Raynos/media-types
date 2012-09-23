@@ -1,6 +1,6 @@
 var test = require("tap").test
     , testServer = require("test-server")
-    , mediaTypes = require("..")()
+    , mediaTypes = require("..")
 
 testServer(handleRequest, function (request, done) {
     test("json works", function (t) {
@@ -41,7 +41,7 @@ testServer(handleRequest, function (request, done) {
         request("/error", function (err, res, body) {
             t.equal(err, null)
             t.equal(res.statusCode, 415)
-            t.equal(body, "415 mediaType not supported /error\n")
+            t.equal(body, "415 mediaType not supported /error")
 
             t.end()
         })
@@ -52,7 +52,7 @@ testServer(handleRequest, function (request, done) {
 
 function handleRequest(req, res) {
     if (req.url === "/error") {
-        return mediaTypes(req, res, {})()
+        return mediaTypes(req, res)()
     }
     mediaTypes(req, res, {
         "application/json": json
