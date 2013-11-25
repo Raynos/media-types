@@ -2,20 +2,27 @@ var Negotiator = require("negotiator")
 
 module.exports = MediaTypes
 
-function MediaTypes(req, res, object) {
+function MediaTypes(object) {
     object = object || {}
-    var $default = object.default
 
-    ;delete object.default
+    return requestHandler
 
-    var types = Object.keys(object)
-        , neg = new Negotiator(req)
-        , mediaType = neg.preferredMediaType(types)
+    function requestHandler(req, res) {
+        var $default = object.default
 
-    return object[mediaType] || $default || defaultHandler
+        ;delete object.default
 
-    function defaultHandler() {
-        res.statusCode = 415
-        res.end("415 mediaType not supported " + req.url)
+        var types = Object.keys(object)
+        var neg = new Negotiator(req)
+        var mediaType = neg.preferredMediaType(types)
+
+        var handler = object[mediaType] || $default || defaultHandler
+
+        return handler.apply(this, arguments)
     }
+}
+
+function defaultHandler(req, res) {
+    res.statusCode = 415
+    res.end("415 mediaType not supported " + req.url)
 }

@@ -6,18 +6,16 @@ handle multiple media types
 
 ```
 var http = require("http")
-    , mediaTypes = require("media-types")
+var mediaTypes = require("media-types")
 
-http.createServer(function (req, res) {
-    mediaTypes(req, res, {
-        "application/json": sendJson
-        , "text/html": sendHtml
-    })(res)
-}).listen(8080)
+http.createServer(mediaTypes({
+    "application/json": sendJson
+    , "text/html": sendHtml
+})).listen(8080)
 
-function sendJson(res) { res.end("json") }
+function sendJson(req, res) { res.end("json") }
 
-function sendHtml(res) { res.end("html") }
+function sendHtml(req, res) { res.end("html") }
 ```
 
 ## Example with custom error handling
@@ -26,20 +24,18 @@ function sendHtml(res) { res.end("html") }
 var http = require("http")
     , mediaTypes = require("media-types")
 
-http.createServer(function (req, res) {
-    mediaTypes(req, res, {
-        "application/json": sendJson
-        , "text/html": sendHtml
-        , default: function (res) {
-            res.statusCode = 415
-            res.end("I refuse to handle you")
-        }
-    })(res)
-}).listen(8080)
+http.createServer(mediaTypes, {
+    "application/json": sendJson
+    , "text/html": sendHtml
+    , default: function (req, res) {
+        res.statusCode = 415
+        res.end("I refuse to handle you")
+    }
+})).listen(8080)
 
-function sendJson(res) { res.end("json") }
+function sendJson(req, res) { res.end("json") }
 
-function sendHtml(res) { res.end("html") }
+function sendHtml(req, res) { res.end("html") }
 ```
 
 ## Installation

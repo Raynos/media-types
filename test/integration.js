@@ -1,12 +1,12 @@
-var test = require("tap").test
-    , testServer = require("test-server")
-    , mediaTypes = require("..")
+var test = require("tape")
+var testServer = require("test-server")
+var mediaTypes = require("..")
 
 testServer(handleRequest, function (request, done) {
     test("json works", function (t) {
         request({
-            uri: "/"
-            , headers: {
+            uri: "/",
+            headers: {
                 accept: "application/json"
             }
         }, function (e, r, body) {
@@ -18,8 +18,8 @@ testServer(handleRequest, function (request, done) {
 
     test("html works", function (t) {
         request({
-            uri: "/"
-            , headers: {
+            uri: "/",
+            headers: {
                 accept: "text/html"
             }
         }, function (e, r, body) {
@@ -52,23 +52,24 @@ testServer(handleRequest, function (request, done) {
 
 function handleRequest(req, res) {
     if (req.url === "/error") {
-        return mediaTypes(req, res)()
+        return mediaTypes()(req, res)
     }
-    mediaTypes(req, res, {
-        "application/json": json
-        , "text/html": html
-        , default: normal
-    })(res)
+
+    mediaTypes({
+        "application/json": json,
+        "text/html": html,
+        default: normal
+    })(req, res)
 }
 
-function json(res) {
+function json(req, res) {
     res.end("json")
 }
 
-function html(res) {
+function html(req, res) {
     res.end("html")
 }
 
-function normal(res) {
+function normal(req, res) {
     res.end("normal")
 }
