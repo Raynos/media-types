@@ -5,14 +5,13 @@ module.exports = MediaTypes
 function MediaTypes(object) {
     object = object || {}
 
+    var $default = object.default
+    ;delete object.default
+    var types = Object.keys(object)
+
     return requestHandler
 
     function requestHandler(req, res) {
-        var $default = object.default
-
-        ;delete object.default
-
-        var types = Object.keys(object)
         var neg = new Negotiator(req)
         var mediaType = neg.preferredMediaType(types)
 
