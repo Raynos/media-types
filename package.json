@@ -17,7 +17,7 @@
     "email": "raynos2@gmail.com"
   },
   "dependencies": {
-    "negotiator": "~0.2.5"
+    "negotiator": "^0.5.3"
   },
   "devDependencies": {
     "tape": "~2.3.0",

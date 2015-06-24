@@ -15,7 +15,7 @@ function MediaTypes(object) {
 
     function requestHandler(req, res) {
         var neg = new Negotiator(req)
-        var mediaType = neg.preferredMediaType(types)
+        var mediaType = neg.mediaType(types)
 
         var handler = object[mediaType] || $default || defaultHandler
         vary(req, res, "Accept")

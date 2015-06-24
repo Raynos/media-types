@@ -31,7 +31,20 @@ testServer(handleRequest, function (request, done) {
 
     test("normal works", function (t) {
         request("/", function (e, r, body) {
-            t.equal(body, "normal")
+            t.equal(body, "json")
+
+            t.end()
+        })
+    })
+
+    test("default works", function (t) {
+        request({
+            uri: "/",
+            headers: {
+                accept: "foobar"
+            }
+        }, function (e, r, body) {
+            t.equal(body, "default")
 
             t.end()
         })
@@ -58,7 +71,7 @@ function handleRequest(req, res) {
     mediaTypes({
         "application/json": json,
         "text/html": html,
-        default: normal
+        default: $default
     })(req, res)
 }
 
@@ -70,6 +83,6 @@ function html(req, res) {
     res.end("html")
 }
 
-function normal(req, res) {
-    res.end("normal")
+function $default(req, res) {
+    res.end("default")
 }
