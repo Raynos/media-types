@@ -11,6 +11,7 @@ testServer(handleRequest, function (request, done) {
             }
         }, function (e, r, body) {
             t.equal(body, "json")
+            t.equal(r.headers["vary"], "Accept")
 
             t.end()
         })
