@@ -1,6 +1,5 @@
 var Negotiator = require("negotiator")
-
-var varySplitter = / *, */
+var vary = require("vary");
 
 module.exports = MediaTypes
 
@@ -15,25 +14,12 @@ function MediaTypes(object) {
 
     function requestHandler(req, res) {
         var neg = new Negotiator(req)
-        var mediaType = neg.preferredMediaType(types)
+        var mediaType = neg.mediaType(types)
 
         var handler = object[mediaType] || $default || defaultHandler
-        vary(req, res, "Accept")
+        vary(res, "Accept")
 
         return handler.apply(this, arguments)
-    }
-}
-
-function vary(req, res, header) {
-    var varyHeader = res.getHeader(header)
-    if (varyHeader) {
-        var parts = varyHeader.split(varySplitter)
-        if (parts.indexOf(header) === -1) {
-            parts.push(header)
-        }
-        res.setHeader(header, parts.join(", "))
-    } else {
-        res.setHeader(header, "Accept")
     }
 }
 
